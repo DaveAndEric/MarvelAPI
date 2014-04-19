@@ -29,12 +29,6 @@ app.use(stylus.middleware(
 ))
 app.use(express.static(__dirname + '/public'))
 
-app.get('/', function (req, res) {
-  res.render('index',
-  { title : 'Home' }
-  )
-})
-
 
 /*var http = require('http')
 var port = process.env.PORT || 1337;
@@ -44,16 +38,23 @@ http.createServer(function(req, res) {
 }).listen(port);*/
 
 app.get('/', function (req, res) {
-  res.render('index',
-  { title : 'Home' }
+  
+  
+  marvel.characters.findByName('spider-man')
+  .then(function(hero) {
+    console.log('Found character ID', hero.data[0].id);
+    res.render('index',
+  { title : hero.data[0].id }
   )
-  marvel.characters.findAll(function(err, results) {
-  if (err) {
-    return console.error(err);
-  }
-
-  console.log(results);
-});
+    return marvel.characters.comics(hero.data[0].id);
+  })
+  .then(function(comics) {
+    console.log('found %s comics of %s total', comics.meta.count, comics.meta.total);
+    console.log(comics.data);
+  })
+  .fail(console.error)
+  .done();
+  
 })
 
 app.listen(1337)
