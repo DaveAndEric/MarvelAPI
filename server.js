@@ -15,8 +15,8 @@ function compile(str, path) {
 var api = require('marvel-api');
 
 var marvel = api.createClient({
-  publicKey: 'my-public-key'
-, privateKey: 'my-private-key'
+  publicKey: 'c03e2a33289649508433c722c525b6f4'
+, privateKey: '5933ef0d40037d832df99e50ab9ec5b554b5f0f5'
 });
 
 app.set('views', __dirname + '/views')
