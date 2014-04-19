@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-   
-    "jade": "^1.0.0"
+   "express": "3.0.0alpha4",
+    "jade": "*",
+    "stylus": "*",
+    "nib": "*"
   }
 }
