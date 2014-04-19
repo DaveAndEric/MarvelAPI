@@ -11,6 +11,14 @@ function compile(str, path) {
     .set('filename', path)
     .use(nib())
 }
+
+var api = require('marvel-api');
+
+var marvel = api.createClient({
+  publicKey: 'my-public-key'
+, privateKey: 'my-private-key'
+});
+
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
 app.use(express.logger('dev'))
@@ -39,6 +47,13 @@ app.get('/', function (req, res) {
   res.render('index',
   { title : 'Home' }
   )
+  marvel.characters.findAll(function(err, results) {
+  if (err) {
+    return console.error(err);
+  }
+
+  console.log(results);
+});
 })
 
 app.listen(1337)
