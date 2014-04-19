@@ -44,9 +44,10 @@ app.get('/', function (req, res) {
   .then(function(hero) {
     console.log('Found character ID', hero.data[0].id);
     res.render('index',
-  { title : hero.data[0].name, 
+  { title : hero.data[0].id, 
     name : hero.data[0].name , 
-    description : hero.data[0].description }
+    description : hero.data[0].description,
+    image : hero.data[0].thumbnail.path + "/detail.jpg" }
   )
     return marvel.characters.comics(hero.data[0].id);
   })
