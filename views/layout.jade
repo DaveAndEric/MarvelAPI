@@ -1,15 +1,13 @@
 doctype html
 html
   head
-    title #{title} - Marvel Stuff
+    title #{title} - Marvel Stuff 
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     header
-      h1 Dave and Eric
+      h1 #{name}
     .container
       .main-content
-        block content
-      .sidebar
-        block sidebar
+        block content #{description}
     footer
       p Running on node with Express, Jade and Stylus
