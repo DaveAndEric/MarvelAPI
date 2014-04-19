@@ -4,11 +4,11 @@ html
     title #{title} - Marvel Stuff 
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    div(style='background-image: #{image};')
     header
       h1 #{name}
     .container
       .main-content
         block content
+        img(src=#{image})
     footer
       p Running on node with Express, Jade and Stylus

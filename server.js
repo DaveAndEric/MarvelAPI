@@ -47,7 +47,7 @@ app.get('/', function (req, res) {
   { title : hero.data[0].id, 
     name : hero.data[0].name , 
     description : hero.data[0].description,
-    image : hero.data[0].thumbnail.path + "/detail.jpg" }
+    image : hero.data[0].thumbnail.path + "\/detail.jpg" }
   )
     return marvel.characters.comics(hero.data[0].id);
   })
