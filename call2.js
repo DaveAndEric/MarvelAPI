@@ -93,6 +93,7 @@ reqPost.on('error', function(e) {
     console.error(e);
 });
  
+var test = require('crypto').createHash('md5').update("180e0d9ad8422f21aa56336962fbe46ffa37f2c597f99fe3b066d06515886278bc6fd3dcd").digest("hex") 
 /**
  * Get Message - GET
  */
@@ -101,7 +102,7 @@ var optionsgetmsg = {
     host : 'gateway.marvel.com', // here only the domain name
     // (no http/http !)
     port : 80,
-    path : '/v1/public/characters?ts=23&apikey=7f99fe3b066d06515886278bc6fd3dcd&hash=ffd275c5130566a2916217b101f26150', // the rest of the url with parameters if needed
+    path : '/v1/public/characters?ts=1&apikey=7f99fe3b066d06515886278bc6fd3dcd&hash=' + test, // the rest of the url with parameters if needed
     method : 'GET' // do GET
 };
 
