@@ -40,20 +40,31 @@ http.createServer(function(req, res) {
 app.get('/', function (req, res) {
   
   
-  marvel.characters.findByName('spider-man')
-  .then(function(hero) {
-    console.log('Found character ID', hero.data[0].id);
-    res.render('index',
-  { title : hero.data[0].id, 
-    name : hero.data[0].name , 
-    description : hero.data[0].description,
-    image : hero.data[0].thumbnail.path + "\/detail.jpg" }
-  )
-    return marvel.characters.comics(hero.data[0].id);
-  })
+  // marvel.characters.findByName('spider-man')
+  // .then(function(hero) {
+    // console.log('Found character ID', hero.data[0].id);
+    // res.render('index',
+  // { title : hero.data[0].id, 
+    // name : hero.data[0].name , 
+    // description : hero.data[0].description,
+    // image : hero.data[0].thumbnail.path + "\/detail.jpg" }
+  // )
+    // return marvel.characters.comics(hero.data[0].id);
+  // })
+  marvel.comics.findByDateRange('2013-01-01%2C2014-01-10')
   .then(function(comics) {
-    console.log('found %s comics of %s total', comics.meta.count, comics.meta.total);
-    console.log(comics.data);
+  console.log(new Error('NotFound').stack);
+  console.log(comics.data[0].id);
+	res.render('index',
+   { title : comics.data[0].id, 
+    // name : hero.data[0].name , 
+    // description : hero.data[0].description,
+    // image : hero.data[0].thumbnail.path + "\/detail.jpg" 
+	}
+   )
+  
+    //console.log('found %s comics of %s total', comics.meta.count, comics.meta.total);
+    //console.log(comics.data);
   })
   .fail(console.error)
   .done();
