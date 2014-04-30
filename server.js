@@ -39,8 +39,9 @@ http.createServer(function(req, res) {
 
 app.get('/', function (req, res) {
   
-  
-  marvel.characters.findByName('spider-man')
+  var id = 1009000 + Math.floor((Math.random() * 1000))
+  console.log('DLT' + id)
+  marvel.characters.find(id)
   .then(function(hero) {
     console.log('Found character ID', hero.data[0].id);
     res.render('index',
@@ -49,11 +50,7 @@ app.get('/', function (req, res) {
     description : hero.data[0].description,
     image : hero.data[0].thumbnail.path + "\/detail.jpg" }
   )
-    return marvel.characters.comics(hero.data[0].id);
-  })
-  .then(function(comics) {
-    console.log('found %s comics of %s total', comics.meta.count, comics.meta.total);
-    console.log(comics.data);
+    //return marvel.characters.comics(hero.data[0].id);
   })
   .fail(console.error)
   .done();
