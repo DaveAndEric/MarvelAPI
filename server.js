@@ -29,6 +29,32 @@ app.use(stylus.middleware(
 ))
 app.use(express.static(__dirname + '/public'))
 
+function getRandomInt (min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomDateRange() {
+	//first select a random year
+	var year = getRandomInt(1960, 2013);
+	//then a month
+	var month = getRandomInt(1,12);
+
+	var cache_key = year + "_" + month;
+
+	if(cache_key in cache) {
+		console.log('had cache for '+cache_key);
+		var images = cache[cache_key].images;
+		cache[cache_key].hits++;
+		cb(images[getRandomInt(0, images.length-1)]);
+	} else {
+		var monthStr = month<10?"0"+month:month;
+		//lame logic for end of month
+		var eom = month==2?28:30;
+		var beginDateStr = year + "-" + monthStr + "-01";
+		var endDateStr = year + "-" + monthStr + "-" + eom;
+
+    return beginDateStr+"%2C"+endDateStr;
+  }
 
 /*var http = require('http')
 var port = process.env.PORT || 1337;
@@ -38,36 +64,36 @@ http.createServer(function(req, res) {
 }).listen(port);*/
 
 app.get('/', function (req, res) {
-  
-  
+
+
   // marvel.characters.findByName('spider-man')
   // .then(function(hero) {
     // console.log('Found character ID', hero.data[0].id);
     // res.render('index',
-  // { title : hero.data[0].id, 
-    // name : hero.data[0].name , 
+  // { title : hero.data[0].id,
+    // name : hero.data[0].name ,
     // description : hero.data[0].description,
     // image : hero.data[0].thumbnail.path + "\/detail.jpg" }
   // )
     // return marvel.characters.comics(hero.data[0].id);
   // })
-  marvel.comics.findByDateRange('2013-01-01%2C2014-01-10')
+  marvel.comics.findByDateRange(getRandomDateRange()
   .then(function(comics) {
   var error = new Error("The error message");
 	res.render('index',
-   { title : comics.data[0].id, 
-    name : comics.data[0].title,  
+   { title : comics.data[0].id,
+    name : comics.data[0].title,
     description : comics.data[0].description,
-    image : comics.data[0].thumbnail.path + "\/detail.jpg" 
+    image : comics.data[0].thumbnail.path + "\/detail.jpg"
 	}
    )
-  
+
     //console.log('found %s comics of %s total', comics.meta.count, comics.meta.total);
     //console.log(comics.data);
   })
   .fail(console.error)
-  .done();
-  
+  .done()
+
 })
 
 app.listen(1337)
