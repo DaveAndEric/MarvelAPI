@@ -72,8 +72,16 @@ app.get('/', function (req, res) {
   marvel.comics.findByDateRange(getRandomDateRange())
   .then(function(comics) {
   var error = new Error("The error message");
-	res.render('index',
-   { comics: comics.data
+  var filteredComics = [];
+	for (var j = 0; j < comics.data.length; j++) {
+    if (comics.data[j].thumbnail.path != "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available")
+    {
+      filteredComics.push(comics.data[j]);
+    }
+  }
+
+  res.render('index',
+   { comics: filteredComics
 	}
    )
 
