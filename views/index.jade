@@ -2,14 +2,12 @@ extend layout
 
 block content
   div
-  - console.log('Found character 2', comics[1]);
+  - console.log('Found character 2', comics.length);
   table
     tbody
       - var columns = 10
       - for (var i = 0; i < comics.length; i=i+columns)
         tr
-        - console.log('Found character 3');
         - for (var j = 0; j < columns && i+j < comics.length; j++)
           td
-          - console.log('Found character 4');
           img(src= "" + comics[i+j].thumbnail.path + "\/detail.jpg")

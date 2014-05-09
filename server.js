@@ -43,7 +43,7 @@ function getRandomDateRange() {
 	//lame logic for end of month
 	var eom = month==2?28:30;
 	var beginDateStr = year + "-" + monthStr + "-01";
-	var endDateStr = year + "-" + monthStr + "-" + eom;
+	var endDateStr = (year+4) + "-" + monthStr + "-" + eom;
 
   return beginDateStr+"%2C"+endDateStr;
 
