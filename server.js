@@ -73,10 +73,7 @@ app.get('/', function (req, res) {
   .then(function(comics) {
   var error = new Error("The error message");
 	res.render('index',
-   { title : comics.data[0].id,
-    name : comics.data[0].title,
-    description : comics.data[0].description,
-    image : comics.data[0].thumbnail.path + "\/detail.jpg"
+   { comics: comics.data
 	}
    )
 
