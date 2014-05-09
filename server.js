@@ -39,23 +39,15 @@ function getRandomDateRange() {
 	//then a month
 	var month = getRandomInt(1,12);
 
-	var cache_key = year + "_" + month;
+	var monthStr = month<10?"0"+month:month;
+	//lame logic for end of month
+	var eom = month==2?28:30;
+	var beginDateStr = year + "-" + monthStr + "-01";
+	var endDateStr = year + "-" + monthStr + "-" + eom;
 
-	if(cache_key in cache) {
-		console.log('had cache for '+cache_key);
-		var images = cache[cache_key].images;
-		cache[cache_key].hits++;
-		cb(images[getRandomInt(0, images.length-1)]);
-	} else {
-		var monthStr = month<10?"0"+month:month;
-		//lame logic for end of month
-		var eom = month==2?28:30;
-		var beginDateStr = year + "-" + monthStr + "-01";
-		var endDateStr = year + "-" + monthStr + "-" + eom;
+  return beginDateStr+"%2C"+endDateStr;
 
-    return beginDateStr+"%2C"+endDateStr;
-  }
-
+}
 /*var http = require('http')
 var port = process.env.PORT || 1337;
 http.createServer(function(req, res) {
@@ -77,7 +69,7 @@ app.get('/', function (req, res) {
   // )
     // return marvel.characters.comics(hero.data[0].id);
   // })
-  marvel.comics.findByDateRange(getRandomDateRange()
+  marvel.comics.findByDateRange(getRandomDateRange())
   .then(function(comics) {
   var error = new Error("The error message");
 	res.render('index',
@@ -92,7 +84,7 @@ app.get('/', function (req, res) {
     //console.log(comics.data);
   })
   .fail(console.error)
-  .done()
+  .done();
 
 })
 
