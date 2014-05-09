@@ -69,7 +69,7 @@ app.get('/', function (req, res) {
   // )
     // return marvel.characters.comics(hero.data[0].id);
   // })
-  marvel.comics.findByDateRange(8, getRandomDateRange())
+  marvel.comics.findByDateRange(100, getRandomDateRange())
   .then(function(comics) {
   var error = new Error("The error message");
   var filteredComics = [];
