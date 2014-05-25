@@ -67,51 +67,42 @@ function getRandomDateRange() {
   return beginDateStr+"%2C"+endDateStr;
 
 }
-/*var http = require('http')
-var port = process.env.PORT || 1337;
-http.createServer(function(req, res) {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello World\n');
-}).listen(port);*/
 
 app.get('/', function (req, res) {
 
-
-  // marvel.characters.findByName('spider-man')
-  // .then(function(hero) {
-    // console.log('Found character ID', hero.data[0].id);
-    // res.render('index',
-  // { title : hero.data[0].id,
-    // name : hero.data[0].name ,
-    // description : hero.data[0].description,
-    // image : hero.data[0].thumbnail.path + "\/detail.jpg" }
-  // )
-    // return marvel.characters.comics(hero.data[0].id);
-  // })
   marvel.comics.findByDateRange(100, getRandomDateRange())
   .then(function(comics) {
   var error = new Error("The error message");
   var filteredComics = [];
+  var filteredComicsImages = [];
 	for (var j = 0; j < comics.data.length; j++) {
 
     if (comics.data[j].thumbnail.path != "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available")
     {
 
-      download("" + comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg", "" + comics.data[j].id + ".jpg", function(){
-        console.log('done - ' + comics.data[j].id);
-      });
+      if (cache[comics.data[j].id])
+      {
+        filteredComicsImages.push(cache[comics.data[j].id]);
+      }
+      else
+      {
+        cache[comics.data[j].id] = download("" + comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg", "" + comics.data[j].id + ".jpg", function(){
+          console.log('done - ');
+        });
+        filteredComicsImages.push(cache[comics.data[j].id]);
+      }
+
 
       filteredComics.push(comics.data[j]);
     }
   }
 
   res.render('index',
-   { comics: filteredComics
+   { comics: filteredComics,
+     images: filteredComicsImages
 	}
    )
 
-    //console.log('found %s comics of %s total', comics.meta.count, comics.meta.total);
-    //console.log(comics.data);
   })
   .fail(console.error)
   .done();
