@@ -86,12 +86,11 @@ app.get('/', function (req, res) {
       }
       else
       {
-        cache[comics.data[j].id] = download("" + comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg", "" + comics.data[j].id + ".jpg", function(){
+        cache[comics.data[j].id] = download("" + comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg", "Images\/" + comics.data[j].id + ".jpg", function(){
           console.log('done - ');
         });
         filteredComicsImages.push(cache[comics.data[j].id]);
       }
-
 
       filteredComics.push(comics.data[j]);
     }
