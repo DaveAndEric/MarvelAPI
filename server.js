@@ -19,6 +19,8 @@ var marvel = api.createClient({
 , privateKey: '5933ef0d40037d832df99e50ab9ec5b554b5f0f5'
 });
 
+var fs = require('fs'),
+request = require('request');
 
 var cache = [];
 
@@ -36,6 +38,15 @@ app.use(stylus.middleware(
   }
 ))
 app.use(express.static(__dirname + '/public'))
+
+var download = function(uri, filename, callback){
+  request.head(uri, function(err, res, body){
+    console.log('content-type:', res.headers['content-type']);
+    console.log('content-length:', res.headers['content-length']);
+
+    request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+  });
+};
 
 function getRandomInt (min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -82,8 +93,14 @@ app.get('/', function (req, res) {
   var error = new Error("The error message");
   var filteredComics = [];
 	for (var j = 0; j < comics.data.length; j++) {
+
     if (comics.data[j].thumbnail.path != "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available")
     {
+
+      download("" + comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg", "" + comics.data[j].id + ".jpg", function(){
+        console.log('done - ' + comics.data[j].id);
+      });
+
       filteredComics.push(comics.data[j]);
     }
   }
