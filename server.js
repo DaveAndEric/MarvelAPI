@@ -97,7 +97,7 @@ app.get('/', function (req, res) {
     if (comics.data[j].thumbnail.path != "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available")
     {
 
-      download("" + comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg", "" + comics.data[j].id + ".jpg", function(){
+      download("" + comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg", "Images\/" + comics.data[j].id + ".jpg", function(){
         console.log('done - ' + comics.data[j].id);
       });
 
