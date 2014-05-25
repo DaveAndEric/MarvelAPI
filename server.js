@@ -19,6 +19,14 @@ var marvel = api.createClient({
 , privateKey: '5933ef0d40037d832df99e50ab9ec5b554b5f0f5'
 });
 
+
+var cache = [];
+
+//default not avail image
+var IMAGE_NOT_AVAIL = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available";
+
+exports.getCache = function() { return cache; };
+
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
 app.use(express.logger('dev'))
