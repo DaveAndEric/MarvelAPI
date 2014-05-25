@@ -24,12 +24,8 @@ var marvel = api.createClient({
 var fs = require('fs'),
 request = require('request');
 
-var cache = [];
-
 //default not avail image
 var IMAGE_NOT_AVAIL = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available";
-
-exports.getCache = function() { return cache; };
 
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
@@ -57,9 +53,10 @@ function getRandomInt (min, max) {
 function getRandomDateRange() {
 	//first select a random year
 	var year = getRandomInt(1960, 2013);
+  year = 1991;
 	//then a month
 	var month = getRandomInt(1,12);
-
+  month = 3;
 	var monthStr = month<10?"0"+month:month;
 	//lame logic for end of month
 	var eom = month==2?28:30;
@@ -76,33 +73,33 @@ app.get('/', function (req, res) {
   .then(function(comics) {
   var error = new Error("The error message");
   var filteredComics = [];
-  var filteredComicsImages = [];
+
 	for (var j = 0; j < comics.data.length; j++) {
 
     if (comics.data[j].thumbnail.path != "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available")
     {
 
-      if (cache[comics.data[j].id])
+      if (fs.existsSync("public/images/" + comics.data[j].id + ".jpg"))
       {
-        filteredComicsImages.push(cache[comics.data[j].id]);
+        filteredComics.push(".\/images/" + comics.data[j].id + ".jpg");
       }
       else
       {
-        cache[comics.data[j].id] = download("" + comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg", "public\/images\/" + comics.data[j].id + ".jpg", function(){
+        download("" + comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg", "public\/images\/" + comics.data[j].id + ".jpg", function(){
           console.log('done - ');
         });
-        filteredComicsImages.push(cache[comics.data[j].id]);
+        filteredComics.push(comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg");
       }
 
-      filteredComics.push(comics.data[j]);
+
     }
   }
-  sleep.sleep(10);
+  //sleep.sleep(10);
    res.render('index',
    { comics: filteredComics,
-     images: filteredComicsImages
 	}
    )
+
 
   })
   .fail(console.error)
