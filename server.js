@@ -5,6 +5,8 @@ var express = require('express')
   , stylus = require('stylus')
   , nib = require('nib')
 
+var sleep = require('sleep');
+
 var app = express()
 function compile(str, path) {
   return stylus(str)
@@ -86,7 +88,7 @@ app.get('/', function (req, res) {
       }
       else
       {
-        cache[comics.data[j].id] = download("" + comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg", "Images\/" + comics.data[j].id + ".jpg", function(){
+        cache[comics.data[j].id] = download("" + comics.data[j].thumbnail.path + "\/portrait_uncanny.jpg", "public\/images\/" + comics.data[j].id + ".jpg", function(){
           console.log('done - ');
         });
         filteredComicsImages.push(cache[comics.data[j].id]);
@@ -95,8 +97,8 @@ app.get('/', function (req, res) {
       filteredComics.push(comics.data[j]);
     }
   }
-
-  res.render('index',
+  sleep.sleep(10);
+   res.render('index',
    { comics: filteredComics,
      images: filteredComicsImages
 	}
