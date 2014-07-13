@@ -53,10 +53,8 @@ function getRandomInt (min, max) {
 function getRandomDateRange() {
 	//first select a random year
 	var year = getRandomInt(1960, 2013);
-  year = 1991;
 	//then a month
 	var month = getRandomInt(1,12);
-  month = 3;
 	var monthStr = month<10?"0"+month:month;
 	//lame logic for end of month
 	var eom = month==2?28:30;
@@ -107,4 +105,4 @@ app.get('/', function (req, res) {
 
 })
 
-app.listen(1337)
+app.listen(5000)
