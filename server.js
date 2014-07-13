@@ -105,4 +105,5 @@ app.get('/', function (req, res) {
 
 })
 
-app.listen(5000)
+var port = Number(process.env.PORT || 5000);
+app.listen(process.env.PORT)
